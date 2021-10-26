@@ -1,0 +1,22 @@
+ListView
+-shows all the information about the object
+
+	class TaskList(ListView):
+		model = Task
+		template_name = 'base/tasks.html'
+		context_object_name = 'tasks'
+		paginate_by = 5
+		ordering = ['-date_created']
+
+*model - source model
+*template_name - for templating
+*context_object_name - naming the context, in function based:
+	context = {'contextName':contextName}
+*paginate_by & ordering - The list view also has pagination and ordering already built 
+in. We can set these methods by setting their attributes like I did in the code 
+example above.
+
+
+DetailView
+-can overwrite the files 
+
