@@ -1,5 +1,5 @@
 ListView
--shows all the information about the object
+-shows all the object
 
 	class TaskList(ListView):
 		model = Task
@@ -18,5 +18,45 @@ example above.
 
 
 DetailView
--can overwrite the files 
+-shows all the details/information about the object
 
+	class TaskDetail(DetailView):
+		 model = Task
+		 template_name = 'base/task.html'
+		 context_object_name = 'task'
+		 pk_url_kwarg = 'custom_pk'
+
+*pk_url_kwarg - By default the view looks for a primary key in the url called “pk” or 
+a slug field called “slug”. Both of these values can be customized with slug_field or 
+“pk_url_kwarg”
+
+
+CreateView
+-View for creating a new object, with a response rendered by a template.
+
+class TaskCreate(CreateView):
+	model = Task
+	success_url = reverse_lazy('tasks')
+	template_name = 'base/form.html'
+	form_class = TaskForm
+
+*form_class - By default this view creates a model form for us based on the model we 
+specify. As you can see in the example if we don't specify a model form to use, one 
+will be created by fail for us after we specify the field names. We can use our own 
+model form by creating a mode for and setting the “form_class attribute”.
+
+
+UpdateView
+-This view by default follows the same template_naming convention and form principles 
+as the create view. Both views will look for the same form and template unless 
+otherwise specified.
+
+
+DeleteView
+-as what it has on its name, for deleting objects
+
+	class TaskDelete(DeleteView):
+		model = Task
+		template_name = 'base/delete.html'
+		context_object_name = 'task'
+		pk_url_kwarg = 'custom_pk'
