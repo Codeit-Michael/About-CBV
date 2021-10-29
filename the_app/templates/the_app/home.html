@@ -4,13 +4,9 @@
 	<title>hello</title>
 </head>
 <body>
-	{% for name in person_list %}
-		<p>{{name}}</p>
+	{% for person in person_list %}
+		<p>{{person.name}}</p>
 	{% endfor %}
-	<form method="post" action="">
-		{% csrf_token %}
-		{{my_form}}
-		<button type="submit">add</button>
 	</form>
 </body>
 </html>
