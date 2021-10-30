@@ -4,9 +4,11 @@
 	<title>hello</title>
 </head>
 <body>
+	<h1> MY LISTS</h1>
+	<ul>
 	{% for person in person_list %}
-		<p>{{person.name}}</p>
+		<li><a href="{% url 'persondetail' person.id %}">{{person.name}}</a></li>
 	{% endfor %}
-	</form>
+	</ul>
 </body>
 </html>

@@ -4,16 +4,27 @@ from .models import Person
 from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
+## Listview: show objects
 class PersonList(ListView):
 	model = Person
 	template_name = 'the_app/home.html'
 	context_object_name = 'person_list'
 
+## Detailview: show details of each object
 class PersonDetail(DetailView):
 	model = Person
 	context_object_name = 'person'
+
+## CreateView: making an object
+class PersonCreate(CreateView):
+	model = Person
+	fields = '__all__'
+	# reverse_lazy: almost the same as redirect
+	success_url = reverse_lazy('personlist')
 
 
 # class PersonList(View):
