@@ -20,12 +20,20 @@ class PersonDetail(DetailView):
 	context_object_name = 'person'
 
 ## CreateView: making an object
+# class PersonCreate(CreateView):
+# 	model = Person
+# 	fields = '__all__'
+# 	# reverse_lazy: almost the same as redirect
+# 	success_url = reverse_lazy('personlist')
+
 class PersonCreate(CreateView):
-	model = Person
-	fields = '__all__'
-	# reverse_lazy: almost the same as redirect
+	template_name = 'the_app/person_form.html'
+	form_class = PersonForm
 	success_url = reverse_lazy('personlist')
 
+	def save_it(self,form):
+		newPeeps = form.save()
+		return super(PersonCreate, self).form_valid(form)
 
 # class PersonList(View):
 # 	def get(self,request):

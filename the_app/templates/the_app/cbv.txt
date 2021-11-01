@@ -33,6 +33,7 @@ a slug field called “slug”. Both of these values can be customized with slug
 
 CreateView
 -View for creating a new object, with a response rendered by a template.
+-Can only create through 
 
 class TaskCreate(CreateView):
 	model = Task
