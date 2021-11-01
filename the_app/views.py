@@ -26,6 +26,7 @@ class PersonDetail(DetailView):
 # 	# reverse_lazy: almost the same as redirect
 # 	success_url = reverse_lazy('personlist')
 
+## CreateView with forms
 class PersonCreate(CreateView):
 	template_name = 'the_app/person_form.html'
 	form_class = PersonForm
