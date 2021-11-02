@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .forms import Person
+from .models import Person, Task
 
 # Register your models here.
 admin.site.register(Person)
+admin.site.register(Task)

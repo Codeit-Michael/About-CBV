@@ -34,7 +34,8 @@ class PersonCreate(CreateView):
 
 	def save_it(self,form):
 		newPeeps = form.save()
-		return super(PersonCreate, self).form_valid(form)
+		# return super(PersonCreate, self).form_valid(form)
+		return redirect('personlist')
 
 # class PersonList(View):
 # 	def get(self,request):

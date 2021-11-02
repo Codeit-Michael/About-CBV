@@ -4,8 +4,7 @@
 	<title>Details</title>
 </head>
 <body>
-	{% for i in "x"|rjust:"10" %}
-		<h1>All about {{person}}</h1>
-	{% endfor %}
+	<h1>All about {{person.name}}</h1>
+	{{person.is_graduated}}
 </body>
 </html>
