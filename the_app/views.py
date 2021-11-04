@@ -8,51 +8,38 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 # Create your views here.
-## Listview: show objects
-class PersonList(ListView):
-	model = Person
-	template_name = 'the_app/home.html'
-	context_object_name = 'person_list'
+class PersonList(View):
+	def get(self,request):
+		myForm = PersonForm()		
+		people = Person.objects.all()
+		context = {'person_list':people,'myForm':myForm}
+		return render(request, 'the_app/home.html', context)
 
-## Detailview: show details of each object
-class PersonDetail(DetailView):
-	model = Person
-	context_object_name = 'person'
+	def post(self,request):
+		my_object = PersonForm(request.POST)
+		if my_object.is_valid():
+			my_object.save()
+			return redirect('personlist')
+		return render(request, 'the_app/home.html', context)
 
-## CreateView: making an object
-# class PersonCreate(CreateView):
-# 	model = Person
-# 	fields = '__all__'
-# 	# reverse_lazy: almost the same as redirect
-# 	success_url = reverse_lazy('personlist')
-
-## CreateView with forms
-class PersonCreate(CreateView):
-	template_name = 'the_app/person_form.html'
-	form_class = PersonForm
-	success_url = reverse_lazy('personlist')
-
-	def save_it(self,form):
-		newPeeps = form.save()
-		# return super(PersonCreate, self).form_valid(form)
+	def delete(self,request,id):
+		my_object = Person.objects.get(id=id)
+		print(my_object)
 		return redirect('personlist')
 
-# class PersonList(View):
-# 	def get(self,request):
-# 		people = Person.objects.all()
-# 		context = {'person_list':people}
-# 		return render(request, 'the_app/home.html', context)
 
-# 	def post(self,request):
-# 		pass
-
-# def personList(request):
-# 	person_list = Person.objects.all()
-# 	my_form = PersonForm()
+# def person_list(request):
+# 	people = Person.objects.all()
+# 	myForm = PersonForm()
 # 	if request.method == 'POST':
-# 		my_form = PersonForm(request.POST)
-# 		if my_form.is_valid():
-# 			my_form.save()
-# 			return redirect('persons')
-# 	context = {"person_list":person_list,"my_form":my_form}
+# 		my_object = PersonForm(request.POST)
+# 		if my_object.is_valid():
+# 			my_object.save()
+# 			return redirect('personlist')
+# 	context = {'person_list':people,'myForm':myForm}
 # 	return render(request, 'the_app/home.html', context)
+
+# def delThis(request,id):
+# 	people = Person.objects.get(id=id)
+# 	print(people)
+# 	return redirect('personlist')

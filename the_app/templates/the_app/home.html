@@ -7,8 +7,13 @@
 	<h1> MY LISTS</h1>
 	<ul>
 	{% for person in person_list %}
-		<li><a href="{% url 'persondetail' person.id %}">{{person.name}}</a></li>
+		<li><a href="">{{person.name}}</a><button onclick="window.location.href='/del/{{person.id}}' ">DELETE</button></li>
 	{% endfor %}
 	</ul>
+	<form method="post" action="">
+		{% csrf_token %}
+		{{myForm}}
+		<button type="submit">SAVE</button>
+	</form>
 </body>
 </html>
