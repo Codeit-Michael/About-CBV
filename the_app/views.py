@@ -22,24 +22,12 @@ class PersonList(View):
 			return redirect('personlist')
 		return render(request, 'the_app/home.html', context)
 
-	def delete(self,request,id):
+	def delete(self,id):
 		my_object = Person.objects.get(id=id)
-		print(my_object)
+		my_object.delete()
 		return redirect('personlist')
 
+	def update(self,request,id):
+		my_object = PersonForm.objects.get(id=id)
+		pass
 
-# def person_list(request):
-# 	people = Person.objects.all()
-# 	myForm = PersonForm()
-# 	if request.method == 'POST':
-# 		my_object = PersonForm(request.POST)
-# 		if my_object.is_valid():
-# 			my_object.save()
-# 			return redirect('personlist')
-# 	context = {'person_list':people,'myForm':myForm}
-# 	return render(request, 'the_app/home.html', context)
-
-# def delThis(request,id):
-# 	people = Person.objects.get(id=id)
-# 	print(people)
-# 	return redirect('personlist')
