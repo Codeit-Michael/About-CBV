@@ -13,21 +13,25 @@ class PersonList(View):
 		myForm = PersonForm()		
 		people = Person.objects.all()
 		context = {'person_list':people,'myForm':myForm}
-		return render(request, 'the_app/home.html', context)
+		return render(request,'the_app/home.html',context)
 
 	def post(self,request):
 		my_object = PersonForm(request.POST)
 		if my_object.is_valid():
 			my_object.save()
 			return redirect('personlist')
-		return render(request, 'the_app/home.html', context)
+		return render(request,'the_app/home.html')
 
 	def delete(self,id):
 		my_object = Person.objects.get(id=id)
 		my_object.delete()
 		return redirect('personlist')
 
-	def update(self,request,id):
-		my_object = PersonForm.objects.get(id=id)
-		pass
+class PersonDetail(DetailView):
+	model = Person
+	context_object_name = 'person'
 
+# def get_id(request,id):
+# 	my_object = Person.objects.get(id=id)
+# 	context = {'person':my_object}
+# 	return render(request,'the_app/person_detail.html',context)
