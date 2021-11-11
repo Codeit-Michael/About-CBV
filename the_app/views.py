@@ -31,6 +31,10 @@ class PersonDetail(DetailView):
 	model = Person
 	context_object_name = 'person'
 
+	def get(self,*args,**kwargs):
+		print('hello world')
+		return super(PersonDetail, self).get(*args, **kwargs)
+
 # def get_id(request,id):
 # 	my_object = Person.objects.get(id=id)
 # 	context = {'person':my_object}
