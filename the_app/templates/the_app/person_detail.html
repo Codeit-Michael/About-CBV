@@ -6,5 +6,8 @@
 <body>
 	<h1>All about {{person.name}}</h1>
 	{{person.id}}
+	{% for x in person.task_set.all %}
+		<p>{{x}}</p>
+	{% endfor %}
 </body>
 </html>

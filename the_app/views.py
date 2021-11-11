@@ -33,9 +33,8 @@ class PersonDetail(DetailView):
 
 	def get(self,*args,**kwargs):
 		print('hello world')
-		return super(PersonDetail, self).get(*args, **kwargs)
+		return super(PersonDetail, self).get(*args,**kwargs)
 
-# def get_id(request,id):
-# 	my_object = Person.objects.get(id=id)
-# 	context = {'person':my_object}
-# 	return render(request,'the_app/person_detail.html',context)
+	def post(self,*args,**kwargs):
+		pass
+		# WORK ON GIVING BOOLEAN (UPDATEVIEW) & CREATING NEW ONE (CREATEVIEW)
