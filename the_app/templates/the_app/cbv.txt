@@ -61,3 +61,8 @@ DeleteView
 		template_name = 'base/delete.html'
 		context_object_name = 'task'
 		pk_url_kwarg = 'custom_pk'
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The "dispatch()"
+-The method you can use to get the request

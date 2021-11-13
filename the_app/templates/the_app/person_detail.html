@@ -5,9 +5,13 @@
 </head>
 <body>
 	<h1>All about {{person.name}}</h1>
-	{{person.id}}
-	{% for x in person.task_set.all %}
-		<p>{{x}}</p>
-	{% endfor %}
+	<form method="post" action="">
+		{% csrf_token %}
+		{% for x in person.task_set.all %}
+			<input type="checkbox" name="check_it">{{x}}
+			<br>
+		{% endfor %}
+		<button type="submit" name="save" value="132">save</button>
+	</form>
 </body>
 </html>
