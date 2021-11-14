@@ -44,6 +44,8 @@ class PersonDetail(DetailView):
 			print(True)
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
+		# FINISH THE BOOLEAN FIELD PART / CHECKBOX PART
+
 		# if request.POST.get('save'):
 		# 	for item in mylist.item_set.all():
 		# 		if request.POST.get(f'c{item.id}') == 'clicked':
@@ -57,6 +59,4 @@ class PersonDetail(DetailView):
 		# elif request.POST.get('delThis'):
 		# 	item_index = request.POST.get('delThis')
 		# 	mylist.item_set.get(id=item_index).delete()
-
-		# return super(PersonDetail, self)
 		# WORK ON GIVING BOOLEAN (UPDATEVIEW) & CREATING NEW ONE (CREATEVIEW)
