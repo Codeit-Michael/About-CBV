@@ -32,16 +32,20 @@ class PersonDetail(DetailView):
 	context_object_name = 'person'
 
 	def get(self,*args,**kwargs):
-		print('hello world')
 		return super(PersonDetail, self).get(*args,**kwargs)
 
 	def post(self,*args,**kwargs):
 		return super(PersonDetail, self).get(*args,**kwargs)
 
-	def dispatch(self,request,*args,**kwargs):
+	def dispatch(self,request,pk,*args,**kwargs):
+		peep = self.model.objects.get(id=pk)
 		if self.request.POST.get('save'):
-			print(self.request)
-			print(True)
+			for task in peep.task_set.all():
+				if request.POST.get(f't{task.id}') == 'clicked':
+					task.is_complete = True
+				else:
+					task.is_complete = False
+				task.save()
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
 		# FINISH THE BOOLEAN FIELD PART / CHECKBOX PART
