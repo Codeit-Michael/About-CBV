@@ -15,13 +15,6 @@ class PersonList(View):
 		context = {'person_list':people,'myForm':myForm}
 		return render(request,'the_app/home.html',context)
 
-	def post(self,request):
-		my_object = PersonForm(request.POST)
-		if my_object.is_valid():
-			my_object.save()
-			return redirect('personlist')
-		return render(request,'the_app/home.html')
-
 	def delete(self,id):
 		my_object = Person.objects.get(id=id)
 		my_object.delete()
@@ -58,3 +51,12 @@ class PersonDetail(DetailView):
 
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 		# WORK ON GIVING BOOLEAN (UPDATEVIEW) & CREATING NEW ONE (CREATEVIEW)
+
+class PersonCreate(CreateView):
+	model = Person
+	# context_object_name = 'person'
+	success_url = reverse_lazy('personlist')
+	form_class = PersonForm
+	# template_name = 'the_app/person_create.html' # matic person_form.html
+
+	# def form_valid(self,)

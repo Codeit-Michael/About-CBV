@@ -12,9 +12,7 @@ ListView
 *template_name - for templating
 *context_object_name - naming the context, in function based:
 	context = {'contextName':contextName}
-*paginate_by & ordering - The list view also has pagination and ordering already built 
-in. We can set these methods by setting their attributes like I did in the code 
-example above.
+*paginate_by & ordering - The list view also has pagination and ordering already built in. We can set these methods by setting their attributes like I did in the code sample above.
 
 
 DetailView
@@ -26,9 +24,7 @@ DetailView
 		 context_object_name = 'task'
 		 pk_url_kwarg = 'custom_pk'
 
-*pk_url_kwarg - By default the view looks for a primary key in the url called “pk” or 
-a slug field called “slug”. Both of these values can be customized with slug_field or 
-“pk_url_kwarg”
+*pk_url_kwarg - By default the view looks for a primary key in the url called “pk” or a slug field called “slug”. Both of these values can be customized with slug_field or “pk_url_kwarg”
 
 
 CreateView
@@ -42,9 +38,7 @@ class TaskCreate(CreateView):
 	form_class = TaskForm
 
 *form_class - By default this view creates a model form for us based on the model we 
-specify. As you can see in the example if we don't specify a model form to use, one 
-will be created by fail for us after we specify the field names. We can use our own 
-model form by creating a mode for and setting the “form_class attribute”.
+specify. As you can see in the example if we don't specify a model form to use, one will be created by fail for us after we specify the field names. We can use our own model form by creating a mode for and setting the “form_class attribute”.
 
 
 UpdateView
