@@ -50,7 +50,6 @@ class PersonDetail(DetailView):
 			peep.task_set.get(id=task_index).delete()
 
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
-		# WORK ON GIVING BOOLEAN (UPDATEVIEW) & CREATING NEW ONE (CREATEVIEW)
 
 class PersonCreate(CreateView):
 	model = Person
@@ -60,3 +59,9 @@ class PersonCreate(CreateView):
 	# template_name = 'the_app/person_create.html' # matic person_form.html
 
 	# def form_valid(self,)
+
+"""
+~ WORK ON GIVING BOOLEAN (UPDATEVIEW) 
+~ MOVE EVERYTHING FROM VIEWS CLASS TO CREATEVIEWS CLASS (get, delete)
+- OR MAKE DELETEVIEWS INSTEAD OF MAKING A FUNCTION
+"""
