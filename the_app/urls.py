@@ -11,5 +11,6 @@ urlpatterns = [
 	path('del/<int:id>', PersonList.delete, name='delThis'),
 	path('pd/pk=<int:pk>', PersonDetail.as_view(), name='persondetail'),
 	# path('pd/pk=<int:pk>', PersonDetail.new_one, name='new_one'),
-	path('person-create/', PersonCreate.as_view(), name='personcreate'),
+	path('person-create/', PersonCreate, name='personcreate')
+	# path('person-create/', PersonCreate.as_view(), name='personcreate'),
 ]

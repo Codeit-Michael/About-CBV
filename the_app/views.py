@@ -26,6 +26,8 @@ class PersonDetail(DetailView):
 	context_object_name = 'person'
 
 	def get(self,*args,**kwargs):
+		if object != None:
+			print(object)
 		return super(PersonDetail, self).get(*args,**kwargs)
 
 	def post(self,*args,**kwargs):
@@ -51,14 +53,37 @@ class PersonDetail(DetailView):
 
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
-class PersonCreate(CreateView):
-	model = Person
-	# context_object_name = 'person'
-	success_url = reverse_lazy('personlist')
-	form_class = PersonForm
+
+# class PersonCreate(CreateView):
+# 	model = Person
+# 	fields = ['name']
+# 	context_object_name = 'person'
+# 	success_url = reverse_lazy('personlist')
+	# form_class = PersonForm
 	# template_name = 'the_app/person_create.html' # matic person_form.html
 
-	# def form_valid(self,)
+	'''TRY ADDING DISPATCH()'''
+
+	# def get_success_url(self):
+		# return self.success_url
+
+def PersonCreate(request):
+	my_form = PersonForm()
+	if request.method == 'POST':
+		my_form = PersonForm(request.POST)
+		if my_form.is_valid():
+			my_form.save()
+			my_name = my_form.cleaned_data.get('name')
+			my_object = Person.objects.get(name=my_name)
+			print(my_object.id)
+
+	return render(request,'the_app/person_form.html',{'form':my_form})
+
+
+
+
+
+
 
 """
 ~ WORK ON GIVING BOOLEAN (UPDATEVIEW) 

@@ -37,14 +37,11 @@ class TaskCreate(CreateView):
 	template_name = 'base/form.html'
 	form_class = TaskForm
 
-*form_class - By default this view creates a model form for us based on the model we 
-specify. As you can see in the example if we don't specify a model form to use, one will be created by fail for us after we specify the field names. We can use our own model form by creating a mode for and setting the “form_class attribute”.
+*form_class - By default this view creates a model form for us based on the model we specify. As you can see in the example if we don't specify a model form to use, one will be created by fail for us after we specify the field names. We can use our own model form by creating a mode for and setting the “form_class attribute”.
 
 
 UpdateView
--This view by default follows the same template_naming convention and form principles 
-as the create view. Both views will look for the same form and template unless 
-otherwise specified.
+-This view by default follows the same template_naming convention and form principles as the create view. Both views will look for the same form and template unless otherwise specified.
 
 
 DeleteView
@@ -59,4 +56,4 @@ DeleteView
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The "dispatch()"
--The method you can use to get the request
+-The method you can use to get the request and broke down the objects
