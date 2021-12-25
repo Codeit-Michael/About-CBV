@@ -6,7 +6,8 @@
 <body>
 	<form method="post" action="">
 		{% csrf_token %}
-		{{form.as_p}}
+		<!-- <p name='name'>{{form.name}}</p> -->
+		<input type="textbox" name="name">
 		<button type="submit" name="save">save</button>
 	</form>
 	<p>PersonCreate's template</p>

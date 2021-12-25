@@ -10,9 +10,8 @@ from django.urls import reverse_lazy
 # Create your views here.
 class PersonList(View):
 	def get(self,request):
-		myForm = PersonForm()		
 		people = Person.objects.all()
-		context = {'person_list':people,'myForm':myForm}
+		context = {'person_list':people}
 		return render(request,'the_app/home.html',context)
 
 	def delete(self,id):
@@ -26,8 +25,6 @@ class PersonDetail(DetailView):
 	context_object_name = 'person'
 
 	def get(self,*args,**kwargs):
-		if object != None:
-			print(object)
 		return super(PersonDetail, self).get(*args,**kwargs)
 
 	def post(self,*args,**kwargs):
@@ -53,34 +50,28 @@ class PersonDetail(DetailView):
 
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
-
 # class PersonCreate(CreateView):
 # 	model = Person
-# 	fields = ['name']
+# 	# fields = ['name']
 # 	context_object_name = 'person'
 # 	success_url = reverse_lazy('personlist')
-	# form_class = PersonForm
-	# template_name = 'the_app/person_create.html' # matic person_form.html
+# 	form_class = PersonForm
+# 	# template_name = 'the_app/person_create.html' # matic person_form.html
 
-	'''TRY ADDING DISPATCH()'''
+class PersonCreate(View):
 
-	# def get_success_url(self):
-		# return self.success_url
+	def get(self,request):
+		my_form = PersonForm()
+		return render(request,'the_app/person_form.html',{'form':my_form})
 
-def PersonCreate(request):
-	my_form = PersonForm()
-	if request.method == 'POST':
+	def post(self,request):
 		my_form = PersonForm(request.POST)
 		if my_form.is_valid():
 			my_form.save()
 			my_name = my_form.cleaned_data.get('name')
-			my_object = Person.objects.get(name=my_name)
-			print(my_object.id)
-
-	return render(request,'the_app/person_form.html',{'form':my_form})
-
-
-
+			my_object = Person.objects.get(name=my_name).id
+			return redirect('persondetail',my_object)
+		return render(request,'the_app/person_form.html',{'form':my_form})
 
 
 
