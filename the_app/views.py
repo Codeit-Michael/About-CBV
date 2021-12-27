@@ -15,11 +15,6 @@ class PersonList(View):
 		context = {'person_list':people}
 		return render(request,'the_app/home.html',context)
 
-	# def delete(self,id):
-	# 	my_object = Person.objects.get(id=id)
-	# 	my_object.delete()
-	# 	return redirect('personlist')
-
 
 class PersonDetail(DetailView):
 	model = Person
