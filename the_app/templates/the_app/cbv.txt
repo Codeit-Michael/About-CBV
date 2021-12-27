@@ -47,12 +47,28 @@ UpdateView
 DeleteView
 -as what it has on its name, for deleting objects
 
-	class TaskDelete(DeleteView):
-		model = Task
-		template_name = 'base/delete.html'
-		context_object_name = 'task'
-		pk_url_kwarg = 'custom_pk'
+class PersonDelete(DeleteView):
+	model = Person
+	# default template_name "person_confirm_delete.html"
+	success_url = reverse_lazy('personlist')
 
+--person_confirm_delete.html
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TUT</title>
+	</head>
+	<body>
+		<form method="post">{% csrf_token %}
+			<p>Are you sure you want to delete "{{object}}"?</p>
+			<input type="submit" value="Confirm">
+		</form>
+	</body>
+</html>
+
+
+Notice that default template_name is starts person, default name is always based on Model name
+ex: we got Person so it named its default template person_confirm_delete
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The "dispatch()"
