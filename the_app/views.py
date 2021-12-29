@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from .forms import PersonForm
-from .models import Person
+from .models import Person, Task
 from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -47,15 +47,6 @@ class PersonDetail(DetailView):
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
 
-# class PersonCreate(CreateView):
-# 	model = Person
-# 	# fields = ['name']
-# 	context_object_name = 'person'
-# 	success_url = reverse_lazy('personlist')
-# 	form_class = PersonForm
-# 	# template_name = 'the_app/person_create.html' # matic person_form.html
-
-
 class PersonCreate(View):
 
 	def get(self,request):
@@ -78,9 +69,12 @@ class PersonDelete(DeleteView):
 	success_url = reverse_lazy('personlist')
 
 
+class PersonUpdate(UpdateView):
+	model = Task
+	fields = ['is_complete']
+	template_name_suffix = '_update_form'
+
 
 """
 ~ WORK ON GIVING BOOLEAN (UPDATEVIEW) 
-~ MOVE EVERYTHING FROM VIEWS CLASS TO CREATEVIEWS CLASS (get, delete)
-- OR MAKE DELETEVIEWS INSTEAD OF MAKING A FUNCTION IN A CLASS
 """

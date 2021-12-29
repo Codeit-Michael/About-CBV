@@ -14,7 +14,7 @@ ListView
 	context = {'contextName':contextName}
 *paginate_by & ordering - The list view also has pagination and ordering already built in. We can set these methods by setting their attributes like I did in the code sample above.
 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DetailView
 -shows all the details/information about the object
 
@@ -27,49 +27,54 @@ DetailView
 *pk_url_kwarg - By default the view looks for a primary key in the url called “pk” or a slug field called “slug”. Both of these values can be customized with slug_field or “pk_url_kwarg”
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CreateView
 -View for creating a new object, with a response rendered by a template.
 -Can only create through 
 
-class TaskCreate(CreateView):
-	model = Task
-	success_url = reverse_lazy('tasks')
-	template_name = 'base/form.html'
-	form_class = TaskForm
+	class PersonCreate(CreateView):
+		model = Person
+		fields = ['name']  # Can used instead of "form_class"
+		# form_class = PersonForm  # Can be used of "fields"
+		context_object_name = 'person'
+		success_url = reverse_lazy('personlist')
+		template_name = 'the_app/person_create.html' # matic person_form.html
 
 *form_class - By default this view creates a model form for us based on the model we specify. As you can see in the example if we don't specify a model form to use, one will be created by fail for us after we specify the field names. We can use our own model form by creating a mode for and setting the “form_class attribute”.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 UpdateView
 -This view by default follows the same template_naming convention and form principles as the create view. Both views will look for the same form and template unless otherwise specified.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DeleteView
 -as what it has on its name, for deleting objects
 
-class PersonDelete(DeleteView):
-	model = Person
-	# default template_name "person_confirm_delete.html"
-	success_url = reverse_lazy('personlist')
+	class PersonDelete(DeleteView):
+		model = Person
+		# default template_name "person_confirm_delete.html"
+		success_url = reverse_lazy('personlist')
 
---person_confirm_delete.html
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>TUT</title>
-	</head>
-	<body>
-		<form method="post">{% csrf_token %}
-			<p>Are you sure you want to delete "{{object}}"?</p>
-			<input type="submit" value="Confirm">
-		</form>
-	</body>
-</html>
-
+	--person_confirm_delete.html
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Delete Confirmation</title>
+		</head>
+		<body>
+			<form method="post">{% csrf_token %}
+				<p>Are you sure you want to delete "{{object}}"?</p>
+				<input type="submit" value="Confirm">
+			</form>
+		</body>
+	</html>
 
 Notice that default template_name is starts person, default name is always based on Model name
 ex: we got Person so it named its default template person_confirm_delete
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The "dispatch()"
 -The method you can use to get the request and broke down the objects
