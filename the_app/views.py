@@ -73,8 +73,10 @@ class PersonUpdate(UpdateView):
 	model = Task
 	fields = ['is_complete']
 	template_name_suffix = '_update_form'
+	success_url = reverse_lazy('personlist')
 
 
 """
-~ WORK ON GIVING BOOLEAN (UPDATEVIEW) 
+~ WE ONLY GET 1 TASK ON THE PERSON OBJECT THAT'S WHY WE ONLY HAVE 1 FORM 
+FOR IT. I WNAT YOU TO GIVE FORM TO ALL OF THE OBJECT'S 'is_complete' ATTR.
 """
