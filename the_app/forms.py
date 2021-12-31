@@ -7,7 +7,7 @@ class PersonForm(ModelForm):
 		fields = '__all__'
 
 
-class TaskForm(ModelForm):
+class PersonUpdateForm(ModelForm):
 	class Meta:
-		model = Task
-		fields = ['is_complete']
+		model = Person
+		fields = ['name']

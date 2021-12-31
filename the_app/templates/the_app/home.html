@@ -2,13 +2,21 @@
 <html>
 <head>
 	<title>hello</title>
+	<style type="text/css">
+		.listItem {
+			font-style: italic;
+			font-weight: bold;
+		}
+	</style>
 </head>
 <body>
 	<h1> MY LISTS</h1>
 	
 		<ul>
 			{% for person in person_list %}
-				<li><a href="{% url 'persondetail' person.id %}">{{person.name}}</a><button onclick="window.location.href='/del/pk={{person.id}}' ">DELETE</button></li>
+				<li><h2 class="listItem"><a href="{% url 'persondetail' person.id %}">{{person.name}}</a><br></h2>
+				<a href="{% url 'personupdate' person.id %}">edit</a>
+				<button onclick="window.location.href='/del/pk={{person.id}}' ">DELETE</button></li>
 			{% endfor %}
 		</ul>
 	

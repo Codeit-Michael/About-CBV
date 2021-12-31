@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import PersonForm
+from .forms import PersonForm, PersonUpdateForm
 from .models import Person, Task
 from django.views.generic import View
 from django.views.generic.list import ListView
@@ -70,13 +70,7 @@ class PersonDelete(DeleteView):
 
 
 class PersonUpdate(UpdateView):
-	model = Task
-	fields = ['is_complete']
+	model = Person
+	fields = ['name']
 	template_name_suffix = '_update_form'
 	success_url = reverse_lazy('personlist')
-
-
-"""
-~ WE ONLY GET 1 TASK ON THE PERSON OBJECT THAT'S WHY WE ONLY HAVE 1 FORM 
-FOR IT. I WNAT YOU TO GIVE FORM TO ALL OF THE OBJECT'S 'is_complete' ATTR.
-"""
