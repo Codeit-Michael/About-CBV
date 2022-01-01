@@ -17,7 +17,7 @@ from .decorators import unauthenticated_user
 class PersonList(View):
 
 	def get(self,request):
-		people = Person.objects.all()
+		people = User.objects.get(username=request.user)
 		context = {'person_list':people}
 		return render(request,'the_app/home.html',context)
 
@@ -113,19 +113,23 @@ def signin(request):
 	if request.method == 'POST':
 		my_name = request.POST.get('username')
 		my_pass = request.POST.get('pass')
-		user = authenticate(request,username='my_name',password='my_pass')
+		user = authenticate(request,username=my_name,password=my_pass)
 
-		if user is not None:
-			print(True)
+		if user:
 			login(request,user)
-			print(False)
 			return redirect('personlist')
 
 		else:
+			print('tangek dito pis')
 			messages.error(request,'BOBO AMP')
 			return redirect('signin')
 
 	return render(request,'the_app/signin.html')
+
+
+"""
+NEW PROB: USER CAN'T LOG IN
+"""
 
 
 @unauthenticated_user
