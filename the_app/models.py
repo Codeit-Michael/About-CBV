@@ -1,9 +1,14 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
+
+# study this
+# from django.contrib.contenttypes.fields import GenericForeignKey
+# from django.contrib.contenttypes.models import ContentType
+
 
 # Create your models here.
 class Person(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=200, null=True)
 
 	def __str__(self):
