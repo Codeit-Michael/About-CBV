@@ -15,10 +15,15 @@ from .decorators import unauthenticated_user
 # Create your views here.
 @login_required(login_url='signin')
 def PersonList(request):
+	print(request)
 	account = User.objects.get(username=request.user)
-	return render(request,'the_app/home.html',{'person_list':account})
+	context = {'person_list':account}
+	return render(request,'the_app/home.html',context)
 
-
+"""
+	SEEMS OUR OLD METHOD OF APPS WITH USER IS NOT APPLICABLE IN CBV
+	~FIND A WAY FOR CBV WITH USERS
+"""
 # @login_required(login_url='signin')
 # class PersonList(View):
 
@@ -62,25 +67,21 @@ class PersonDetail(DetailView):
 
 
 @login_required(login_url='signin')
-def PersonCreate(request):
-	mylist = User.objects.get(username=request.user)
-	context = {'mylist':mylist}
-	return render(request, 'todolist/view.html', context)
-# class PersonCreate(View):
+class PersonCreate(View):
 
-# 	def get(self,request):
-# 		my_form = PersonForm()
-# 		my_form.user = request.user
-# 		return render(request,'the_app/person_form.html',{'form':my_form})
+	def get(self,request):
+		my_form = PersonForm()
+		my_form.user = request.user
+		return render(request,'the_app/person_form.html',{'form':my_form})
 
-# 	def post(self,request):
-# 		my_form = PersonForm(request.POST)
-# 		if my_form.is_valid():
-# 			my_form.save()
-# 			my_name = my_form.cleaned_data.get('name')
-# 			my_object = Person.objects.get(name=my_name).id
-# 			return redirect('persondetail',my_object)
-# 		return render(request,'the_app/person_form.html',{'form':my_form})
+	def post(self,request):
+		my_form = PersonForm(request.POST)
+		if my_form.is_valid():
+			my_form.save()
+			my_name = my_form.cleaned_data.get('name')
+			my_object = Person.objects.get(name=my_name).id
+			return redirect('persondetail',my_object)
+		return render(request,'the_app/person_form.html',{'form':my_form})
 
 
 @login_required(login_url='signin')
