@@ -14,12 +14,19 @@ from .decorators import unauthenticated_user
 
 # Create your views here.
 @login_required(login_url='signin')
-class PersonList(View):
+def PersonList(request):
+	account = User.objects.get(username=request.user)
+	return render(request,'the_app/home.html',{'person_list':account})
 
-	def get(self,request):
-		people = User.objects.get(username=request.user)
-		context = {'person_list':people}
-		return render(request,'the_app/home.html',context)
+
+# @login_required(login_url='signin')
+# class PersonList(View):
+
+# 	def get(self,request):
+# 		account = User.objects.get(username=request.user)
+# 		print(account.person_set.all())
+# 		context = {'person_list':account}
+# 		return render(request,'the_app/home.html',context)
 
 
 @login_required(login_url='signin')
@@ -55,20 +62,25 @@ class PersonDetail(DetailView):
 
 
 @login_required(login_url='signin')
-class PersonCreate(View):
+def PersonCreate(request):
+	mylist = User.objects.get(username=request.user)
+	context = {'mylist':mylist}
+	return render(request, 'todolist/view.html', context)
+# class PersonCreate(View):
 
-	def get(self,request):
-		my_form = PersonForm()
-		return render(request,'the_app/person_form.html',{'form':my_form})
+# 	def get(self,request):
+# 		my_form = PersonForm()
+# 		my_form.user = request.user
+# 		return render(request,'the_app/person_form.html',{'form':my_form})
 
-	def post(self,request):
-		my_form = PersonForm(request.POST)
-		if my_form.is_valid():
-			my_form.save()
-			my_name = my_form.cleaned_data.get('name')
-			my_object = Person.objects.get(name=my_name).id
-			return redirect('persondetail',my_object)
-		return render(request,'the_app/person_form.html',{'form':my_form})
+# 	def post(self,request):
+# 		my_form = PersonForm(request.POST)
+# 		if my_form.is_valid():
+# 			my_form.save()
+# 			my_name = my_form.cleaned_data.get('name')
+# 			my_object = Person.objects.get(name=my_name).id
+# 			return redirect('persondetail',my_object)
+# 		return render(request,'the_app/person_form.html',{'form':my_form})
 
 
 @login_required(login_url='signin')
@@ -124,11 +136,13 @@ def signin(request):
 			messages.error(request,'BOBO AMP')
 			return redirect('signin')
 
+	print(True)
+
 	return render(request,'the_app/signin.html')
 
 
 """
-NEW PROB: USER CAN'T LOG IN
+NEW PROB: TypeError, 1 were needed but 2 where given
 """
 
 
