@@ -8,34 +8,23 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .decorators import unauthenticated_user
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-@login_required(login_url='signin')
-def PersonList(request):
-	print(request)
-	account = User.objects.get(username=request.user)
-	context = {'person_list':account}
-	return render(request,'the_app/home.html',context)
-
 """
 	SEEMS OUR OLD METHOD OF APPS WITH USER IS NOT APPLICABLE IN CBV
 	~FIND A WAY FOR CBV WITH USERS
 """
-# @login_required(login_url='signin')
-# class PersonList(View):
-
-# 	def get(self,request):
-# 		account = User.objects.get(username=request.user)
-# 		print(account.person_set.all())
-# 		context = {'person_list':account}
-# 		return render(request,'the_app/home.html',context)
+class PersonList(LoginRequiredMixin,View):
+	def get(self,request):
+		account = User.objects.get(username=request.user)
+		context = {'person_list':account}
+		return render(request,'the_app/home.html',context)
 
 
-@login_required(login_url='signin')
-class PersonDetail(DetailView):
+class PersonDetail(LoginRequiredMixin,DetailView):
 	model = Person
 	context_object_name = 'person'
 
@@ -66,13 +55,13 @@ class PersonDetail(DetailView):
 		return super(PersonDetail, self).dispatch(request,*args,**kwargs)
 
 
-@login_required(login_url='signin')
-class PersonCreate(View):
+class PersonCreate(LoginRequiredMixin,View):
 
 	def get(self,request):
 		my_form = PersonForm()
 		my_form.user = request.user
-		return render(request,'the_app/person_form.html',{'form':my_form})
+		context = {'form':my_form}
+		return render(request,'the_app/person_form.html',context)
 
 	def post(self,request):
 		my_form = PersonForm(request.POST)
@@ -81,18 +70,17 @@ class PersonCreate(View):
 			my_name = my_form.cleaned_data.get('name')
 			my_object = Person.objects.get(name=my_name).id
 			return redirect('persondetail',my_object)
-		return render(request,'the_app/person_form.html',{'form':my_form})
+			# context = {'form':my_form}
+		return render(request,'the_app/person_form.html')
 
 
-@login_required(login_url='signin')
-class PersonDelete(DeleteView):
+class PersonDelete(LoginRequiredMixin,DeleteView):
 	model = Person
 	# default template_name "person_confirm_delete.html"
 	success_url = reverse_lazy('personlist')
 
 
-@login_required(login_url='signin')
-class PersonUpdate(UpdateView):
+class PersonUpdate(LoginRequiredMixin,UpdateView):
 	model = Person
 	fields = ['name']
 	template_name_suffix = '_update_form'
@@ -133,11 +121,8 @@ def signin(request):
 			return redirect('personlist')
 
 		else:
-			print('tangek dito pis')
 			messages.error(request,'BOBO AMP')
 			return redirect('signin')
-
-	print(True)
 
 	return render(request,'the_app/signin.html')
 
@@ -147,7 +132,6 @@ NEW PROB: TypeError, 1 were needed but 2 where given
 """
 
 
-@unauthenticated_user
 def signout(request):
 	logout(request)
 	messages.success(request,'User successfully logged out')
