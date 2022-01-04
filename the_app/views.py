@@ -14,10 +14,6 @@ from .decorators import unauthenticated_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-"""
-	SEEMS OUR OLD METHOD OF APPS WITH USER IS NOT APPLICABLE IN CBV
-	~FIND A WAY FOR CBV WITH USERS
-"""
 class PersonList(LoginRequiredMixin,View):
 	def get(self,request):
 		account = User.objects.get(username=request.user)
@@ -70,16 +66,15 @@ class PersonCreate(LoginRequiredMixin,View):
 		# return render(request,'the_app/person_form.html')
 
 
-class PersonDelete(LoginRequiredMixin,DeleteView):
-	model = Person
-	# default template_name "person_confirm_delete.html"
-	success_url = reverse_lazy('personlist')
-
-
 class PersonUpdate(LoginRequiredMixin,UpdateView):
 	model = Person
 	fields = ['name']
 	template_name_suffix = '_update_form'
+	success_url = reverse_lazy('personlist')
+
+
+class PersonDelete(LoginRequiredMixin,DeleteView):
+	model = Person
 	success_url = reverse_lazy('personlist')
 
 
@@ -104,7 +99,6 @@ def signup(request):
 	return render(request,'the_app/signup.html',context)
 
 
-
 @unauthenticated_user
 def signin(request):
 	if request.method == 'POST':
@@ -123,11 +117,6 @@ def signin(request):
 	return render(request,'the_app/signin.html')
 
 
-"""
-NEW PROB: TypeError, 1 were needed but 2 where given
-"""
-
-
 def signout(request):
 	logout(request)
 	messages.success(request,'User successfully logged out')
@@ -136,4 +125,4 @@ def signout(request):
 
 # try it later with signin, signup and signout
 class PersonAuth(View):
-	pass
+	pass # About LoginView
