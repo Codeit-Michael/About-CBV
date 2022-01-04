@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
-from .forms import PersonForm, PersonUpdateForm, CreateUserForm
-from .models import Person, Task
+from .forms import CreateUserForm
+from .models import Person
+
 from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.models import User
@@ -55,7 +56,7 @@ class PersonDetail(LoginRequiredMixin,DetailView):
 class PersonCreate(LoginRequiredMixin,View):
 
 	def get(self,request):
-		return render(request,'the_app/person_form.html')
+		return render(request,'the_app/person_create_form.html')
 
 	def post(self,request):
 		user = User.objects.get(username=request.user)
