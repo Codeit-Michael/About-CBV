@@ -6,6 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -58,20 +59,15 @@ class PersonDetail(LoginRequiredMixin,DetailView):
 class PersonCreate(LoginRequiredMixin,View):
 
 	def get(self,request):
-		my_form = PersonForm()
-		my_form.user = request.user
-		context = {'form':my_form}
-		return render(request,'the_app/person_form.html',context)
+		return render(request,'the_app/person_form.html')
 
 	def post(self,request):
-		my_form = PersonForm(request.POST)
-		if my_form.is_valid():
-			my_form.save()
-			my_name = my_form.cleaned_data.get('name')
-			my_object = Person.objects.get(name=my_name).id
-			return redirect('persondetail',my_object)
-			# context = {'form':my_form}
-		return render(request,'the_app/person_form.html')
+		user = User.objects.get(username=request.user)
+		my_name = request.POST.get('name')
+		user.person_set.create(name=my_name)
+		my_object = user.person_set.get(name=my_name).id
+		return redirect('persondetail',my_object)
+		# return render(request,'the_app/person_form.html')
 
 
 class PersonDelete(LoginRequiredMixin,DeleteView):
