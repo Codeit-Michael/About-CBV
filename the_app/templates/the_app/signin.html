@@ -16,8 +16,7 @@
 	
 	<form method="post">
 		{% csrf_token %}
-		<input type="textbox" name="username" placeholder="Enter Username">
-		<input type="password" name="pass" placeholder="Enter Password">
+		{{form.as_p}}
 		<button type="submit" name="signin">Sign in</button>
 	</form>
 

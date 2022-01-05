@@ -78,3 +78,48 @@ ex: we got Person so it named its default template person_confirm_delete
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The "dispatch()"
 -The method you can use to get the request and broke down the objects
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+FormView
+
+class UserSignup(FormView):
+	template_name = 'the_app/signup.html'
+	form_class = UserCreationForm
+	redirect_authenticated_user = True
+	success_url = reverse_lazy('signin')
+
+	# automatic login after making an account
+	def form_valid(self, form):
+		user = form.save()
+		if user is not None:
+			login(self.request, user)
+		return super(UserSignup, self).form_valid(form)
+
+	# to not access this signup() when you where logged in already
+	def get(self, *args, **kwargs):
+		if self.request.user.is_authenticated:
+			return redirect('personlist')
+		return super(UserSignup, self).get(*args, **kwargs)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LoginView
+
+class UserLogin(LoginView):
+	template_name = 'the_app/signin.html'
+	fields = '__all__'
+	redirect_authenticated_user = True
+
+	def get_success_url(self):
+		return reverse_lazy('personlist')
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LogoutView (shortcut)
+
+on your urls.py:
+from django.contrib.auth import LogoutView
+
+urlpatterns = [
+	path('signin/', UserLogin.as_view(), name='signin'),
+	# LogoutView shortcut
+	path('signout/', LogoutView.as_view(next_page='signin'), name='signout'),
+]

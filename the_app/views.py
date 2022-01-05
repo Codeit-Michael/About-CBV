@@ -1,18 +1,18 @@
 from django.shortcuts import render,redirect
-from .forms import CreateUserForm
+from django.contrib.auth.forms import UserCreationForm
 from .models import Person
 
 from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .decorators import unauthenticated_user
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 
 # Create your views here.
 class PersonList(LoginRequiredMixin,View):
@@ -64,7 +64,6 @@ class PersonCreate(LoginRequiredMixin,View):
 		user.person_set.create(name=my_name)
 		my_object = user.person_set.get(name=my_name).id
 		return redirect('persondetail',my_object)
-		# return render(request,'the_app/person_form.html')
 
 
 class PersonUpdate(LoginRequiredMixin,UpdateView):
@@ -79,51 +78,28 @@ class PersonDelete(LoginRequiredMixin,DeleteView):
 	success_url = reverse_lazy('personlist')
 
 
-@unauthenticated_user
-def signup(request):
-	user_form = CreateUserForm()
+class UserSignup(FormView):
+	template_name = 'the_app/signup.html'
+	form_class = UserCreationForm
+	redirect_authenticated_user = True
+	success_url = reverse_lazy('signin')
 
-	if request.method == 'POST':
-		user_form = CreateUserForm(request.POST)
+	def form_valid(self, form):
+		user = form.save()
+		if user is not None:
+			login(self.request, user)
+		return super(UserSignup, self).form_valid(form)
 
-		if user_form.is_valid:
-			user_form.save()
-			user_name = user_form.cleaned_data.get('username')
-			messages.success(request,f'user {user_name} created successfully!!')
-			return redirect('signin')
-		
-		else:
-			messages.error(request,f'Action denied, pls try again...')
-			return redirect('signup')
-
-	context = {'form':user_form}
-	return render(request,'the_app/signup.html',context)
-
-
-@unauthenticated_user
-def signin(request):
-	if request.method == 'POST':
-		my_name = request.POST.get('username')
-		my_pass = request.POST.get('pass')
-		user = authenticate(request,username=my_name,password=my_pass)
-
-		if user:
-			login(request,user)
+	def get(self, *args, **kwargs):
+		if self.request.user.is_authenticated:
 			return redirect('personlist')
-
-		else:
-			messages.error(request,'BOBO AMP')
-			return redirect('signin')
-
-	return render(request,'the_app/signin.html')
+		return super(UserSignup, self).get(*args, **kwargs)
 
 
-def signout(request):
-	logout(request)
-	messages.success(request,'User successfully logged out')
-	return redirect('signin')
+class UserLogin(LoginView):
+	template_name = 'the_app/signin.html'
+	fields = '__all__'
+	redirect_authenticated_user = True
 
-
-# try it later with signin, signup and signout
-class PersonAuth(View):
-	pass # About LoginView
+	def get_success_url(self):
+		return reverse_lazy('personlist')
