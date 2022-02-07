@@ -12,13 +12,15 @@
 <body>
 	<h1> MY LISTS</h1>
 	
-		<ul>
-			{% for person in person_list.person_set.all %}
-				<li><h2 class="listItem"><a href="{% url 'persondetail' person.id %}">{{person.name}}</a><br></h2>
-				<a href="{% url 'personupdate' person.id %}">edit</a>
-				<button onclick="window.location.href='/person-delete/pk={{person.id}}' ">DELETE</button></li>
-			{% endfor %}
-		</ul>
+	<button onclick="window.location.href='/person-create'">Add Aplicant</button>
+
+	<ul>
+		{% for person in person_list.person_set.all %}
+			<li><h2 class="listItem"><a href="{% url 'persondetail' person.id %}">{{person.name}}</a><br></h2>
+			<a href="{% url 'personupdate' person.id %}">edit</a>
+			<button onclick="window.location.href='/person-delete/pk={{person.id}}' ">DELETE</button></li>
+		{% endfor %}
+	</ul>
 	
 	<br>
 	<button onclick="window.location.href='/logout'">Log out</button>
