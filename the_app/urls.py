@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import PersonList, PersonDetail, PersonCreate, PersonDelete, PersonUpdate, CustomLoginView, UserSignup
+from .views import PersonList, PersonDetail, PersonCreate, PersonDelete, PersonUpdate, UserLogin, UserSignup
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
 	path('signup/', UserSignup.as_view(), name='signup'),
-	path('login/', CustomLoginView.as_view(), name='login'),
+	path('login/', UserLogin.as_view(), name='login'),
 	# path('accounts/login/?next=/', CustomLoginView.as_view(), name='login'),
 	path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 	path('', PersonList.as_view(), name='personlist'),

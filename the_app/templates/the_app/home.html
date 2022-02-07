@@ -10,6 +10,13 @@
 	</style>
 </head>
 <body>
+
+	{% if request.user.is_authenticated %}
+		<h1>{{request.user}}</h1>
+	{% else %}
+		<a href="{% url 'login' %}">Login</a>
+	{% endif %}
+
 	<h1> MY LISTS</h1>
 	
 	<button onclick="window.location.href='/person-create'">Add Aplicant</button>

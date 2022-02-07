@@ -96,7 +96,7 @@ class UserSignup(FormView):
 		return super(UserSignup, self).get(*args, **kwargs)
 
 
-class CustomLoginView(LoginView):
+class UserLogin(LoginView):
 	template_name = 'the_app/signin.html'
 	fields = '__all__'
 	redirect_authenticated_user = True
