@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Person
 
 from django.views.generic import View
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
