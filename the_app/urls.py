@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PersonList, PersonDetail, PersonCreate, PersonDelete, PersonUpdate, UserLogin, UserSignup
+from .views import UserSignup, UserLogin, PersonCreate, PersonList, PersonDetail,  PersonUpdate, PersonDelete
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
