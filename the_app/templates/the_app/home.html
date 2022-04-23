@@ -17,9 +17,9 @@
 		<a href="{% url 'login' %}">Login</a>
 	{% endif %}
 
-	<h2> MY LISTS</h2>
+	<h2> MY LISTS OF EMPLOYEES</h2>
 	
-	<button onclick="window.location.href='/person-create'">Add Aplicant</button>
+	<button onclick="window.location.href='/person-create'">Add Employee</button>
 
 	<ul>
 		{% for person in person_list.person_set.all %}
